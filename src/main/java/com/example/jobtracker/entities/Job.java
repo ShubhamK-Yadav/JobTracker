@@ -1,13 +1,16 @@
 package com.example.jobtracker.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.SequenceGenerator;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Job {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
