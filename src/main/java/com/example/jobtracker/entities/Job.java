@@ -5,7 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 public class Job {
@@ -19,6 +20,7 @@ public class Job {
     @Column(nullable = false)
     private String jobDescription;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Stage appStage;
 
