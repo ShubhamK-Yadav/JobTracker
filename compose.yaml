@@ -1,0 +1,17 @@
+
+services:
+
+  db:
+    image: postgres:17.5
+    container_name: jobtracker_db
+    restart: always
+    environment:
+      POSTGRES_DB: jobs
+      POSTGRES_USER: shubham
+      POSTGRES_PASSWORD: 123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
