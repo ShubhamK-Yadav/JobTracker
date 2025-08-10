@@ -1,8 +1,10 @@
 package com.example.jobtracker.controllers;
 
 import java.util.List;
-import com.example.jobtracker.entities.Job;
-import com.example.jobtracker.repositories.JobRepository;
+
+import com.example.jobtracker.dtos.JobResponseDTO;
+import com.example.jobtracker.services.JobService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/apis/jobs")
 public class JobTrackerController {
-    private final JobRepository repository;
+    private final JobService service;
 
-    JobTrackerController (JobRepository repository){
-        this.repository = repository;
+    JobTrackerController (JobService service){
+        this.service= service;
     }
 
     @GetMapping
-    public List<Job> getAllJobs(){
-       return repository.findAll();
+    public List<JobResponseDTO> getAllJobs(){
+       return service.getAllJobs();
     }
 }
