@@ -14,11 +14,9 @@ The application is containerized with Docker and orchestrated using Docker Compo
 ---
 
 ## Requirements
-- Docker
-- Docker Compose
 - Java 21
 - Maven
-
+- Docker
 ---
 
 ## Project Structure
