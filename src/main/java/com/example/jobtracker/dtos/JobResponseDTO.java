@@ -2,7 +2,7 @@ package com.example.jobtracker.dtos;
 
 import com.example.jobtracker.entities.Stage;
 import java.math.BigDecimal;
-import jakarta.validation.constraints.NotNull;
+
 // This DTO is used to create the job entity to create jobs in the db.
 public class JobResponseDTO {
 
@@ -51,6 +51,4 @@ public class JobResponseDTO {
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
-
-
 }
