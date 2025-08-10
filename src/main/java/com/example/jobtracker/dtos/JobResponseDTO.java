@@ -4,21 +4,12 @@ import com.example.jobtracker.entities.Stage;
 import java.math.BigDecimal;
 import jakarta.validation.constraints.NotNull;
 // This DTO is used to create the job entity to create jobs in the db.
-public class JobCreateDTO {
+public class JobResponseDTO {
 
-    @NotNull
     private String company;
-
-    @NotNull
     private String jobDescription;
-
-    @NotNull
     private Stage appStage;
-
-    @NotNull
     private String url;
-
-    @NotNull
     private BigDecimal salary;
 
     public String getCompany() {
