@@ -26,7 +26,7 @@ public class JobService {
         this.repository = repository;
     }
 
-    public JobResponseDTO createJobs(JobCreateDTO dto) {
+    public JobResponseDTO createJob(JobCreateDTO dto) {
         Job job = new Job();
 
         job.setCompany(dto.getCompany());
