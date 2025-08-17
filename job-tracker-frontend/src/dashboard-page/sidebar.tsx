@@ -1,0 +1,11 @@
+
+function Sidebar(){
+    return(
+        <>
+           <div class="h-lvh w-md bg-white dark:bg-gray-600 ">
+           </div>
+        </>
+    )
+}
+
+export default Sidebar;
