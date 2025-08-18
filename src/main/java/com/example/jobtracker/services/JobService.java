@@ -40,6 +40,7 @@ public class JobService {
     }
 
     public List<JobResponseDTO> getAllJobs(){
+        // gets job entities using the repository interface and turns jobs to a list of DTOs
         return repository.findAll()
             .stream()
             .map(job -> convertToJobResponseDTO(job))

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
-@RequestMapping("/apis/jobs")
+@RequestMapping("/api/jobs")
 public class JobTrackerController {
     private final JobService service;
     private static final Logger logger = LoggerFactory.getLogger(JobTrackerController.class);
@@ -36,6 +36,7 @@ public class JobTrackerController {
        return service.getAllJobs();
     }
 
+    // Uses the service to create the dto required and returns a ResponseEntity for error catching
     @PostMapping("/create")
     public ResponseEntity<?> createJob(@Valid @RequestBody JobCreateDTO dto){
         try {
