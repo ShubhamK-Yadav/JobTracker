@@ -3,6 +3,9 @@ import Searchbar from "./SearchBar";
 import Sidebar from "./SideBar";
 import React, {useEffect, useState} from 'react'
 
+/* Add type description for Job
+* Add types to each variable too
+* Look into the useEffect function */
 export default function Homepage() {
     const [jobs, setJobs] = useState([])
 
@@ -37,6 +40,7 @@ export default function Homepage() {
                     <a href="/" className="text-blue-800 text-md bg-white">
                         <button>Add Job</button>
                     </a>
+                    //add jobs props to the Dashboard
                     <Dashboard jobs={jobs}/>
                 </main>
             </div>

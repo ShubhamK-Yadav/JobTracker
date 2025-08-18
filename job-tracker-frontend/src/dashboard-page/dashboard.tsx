@@ -1,5 +1,9 @@
 import AppliedJobsWidget from "./AppliedJobsWidget"
 
+/* Add type for dashboard props
+* Use prop as function as parameter.
+* jobs.map to list the jobs and its properties in a list */
+
 function Dashboard(){
    return(
        <>
