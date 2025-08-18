@@ -46,11 +46,11 @@ Create a `.env` file in the project root:
 
 ``` 
 POSTGRES_DB=jobs
-POSTGRES_USER=shubham
-POSTGRES_PASSWORD=123
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
 SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/jobs
-SPRING_DATASOURCE_USERNAME=shubham
-SPRING_DATASOURCE_PASSWORD=123
+SPRING_DATASOURCE_USERNAME=user
+SPRING_DATASOURCE_PASSWORD=password
 ```
 
 ## 3. Build and start containers
@@ -59,7 +59,7 @@ SPRING_DATASOURCE_PASSWORD=123
 docker compose up --build -d
 ```
 This will 
-- Start a PostgreSQL database containter with persistent storage.
+- Start a PostgreSQL database container with persistent storage.
 - Build and run the Spring Boot app container
 
 ## 4. Stopping the containers
