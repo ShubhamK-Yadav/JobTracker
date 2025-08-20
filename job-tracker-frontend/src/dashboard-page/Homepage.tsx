@@ -1,13 +1,21 @@
 import Dashboard from "./Dashboard";
 import Searchbar from "./SearchBar";
 import Sidebar from "./SideBar";
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 
 /* Add type description for Job
 * Add types to each variable too
 * Look into the useEffect function */
+type Job = {
+    company: string;
+    jobDescription: string;
+    appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
+    url: string;
+    salary: number;
+}
+
 export default function Homepage() {
-    const [jobs, setJobs] = useState([])
+    const [jobs, setJobs] = useState<Job[]>([])
 
     useEffect(() => {
         async function fetchJobs(){
@@ -16,7 +24,7 @@ export default function Homepage() {
                 if (!response.ok) {
                     throw new Error(`HTTP error: ${response.status}`);
                 }
-                const data = await response.json();
+                const data: Job[] = await response.json();
                 setJobs(data);
             } catch (err) {
                 console.error("Failed to fetch jobs: ", err);
