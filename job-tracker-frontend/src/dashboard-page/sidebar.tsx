@@ -2,7 +2,7 @@
 function Sidebar(){
     return(
         <>
-           <div class="h-lvh w-md bg-white dark:bg-gray-600 ">
+           <div className="h-lvh w-md bg-white dark:bg-gray-600 ">
            </div>
         </>
     )

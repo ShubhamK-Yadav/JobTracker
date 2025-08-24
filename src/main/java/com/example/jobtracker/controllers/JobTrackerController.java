@@ -13,7 +13,7 @@ import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @RequestMapping("/api/jobs")
+@CrossOrigin(origins="http://localhost:5173")
 public class JobTrackerController {
     private final JobService service;
     private static final Logger logger = LoggerFactory.getLogger(JobTrackerController.class);
