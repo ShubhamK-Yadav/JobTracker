@@ -8,6 +8,7 @@ import {useEffect, useState} from 'react'
 * Look into the useEffect function */
 type Job = {
     company: string;
+    jobRole: string;
     jobDescription: string;
     appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
     url: string;

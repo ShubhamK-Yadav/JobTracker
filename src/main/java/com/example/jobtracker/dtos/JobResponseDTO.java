@@ -2,18 +2,34 @@ package com.example.jobtracker.dtos;
 
 import com.example.jobtracker.entities.Stage;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 // This DTO is used to create the job entity to create jobs in the db.
 public class JobResponseDTO {
-
+    private Long id;
     private String company;
+    private String jobRole;
     private String jobDescription;
     private Stage appStage;
     private String url;
     private BigDecimal salary;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public Long getId(){
+        return id;
+    }
 
     public String getCompany() {
         return company;
+    }
+
+    public String getJobRole() {
+        return jobRole;
+    }
+
+    public void setJobRole(String jobRole) {
+        this.jobRole = jobRole;
     }
 
     public void setCompany(String company) {
@@ -51,4 +67,22 @@ public class JobResponseDTO {
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
 }

@@ -26,6 +26,7 @@ public class DataSeeder implements CommandLineRunner {
         if (jobRepository.count() == 0) { // Seed only if DB is empty
             Job job1 = new Job();
             job1.setCompany("OpenAI");
+            job1.setJobRole("Graduate Software Developer");
             job1.setJobDescription("AI Researcher");
             job1.setAppStage(Stage.APPLIED);
             job1.setUrl("https://openai.com/jobs/1");
@@ -33,6 +34,7 @@ public class DataSeeder implements CommandLineRunner {
 
             Job job2 = new Job();
             job2.setCompany("Google");
+            job2.setJobRole("Graduate Software Developer");
             job2.setJobDescription("Software Engineer");
             job2.setAppStage(Stage.INTERVIEW);
             job2.setUrl("https://google.com/jobs/2");
@@ -40,6 +42,7 @@ public class DataSeeder implements CommandLineRunner {
 
             Job job3 = new Job();
             job3.setCompany("Amazon");
+            job3.setJobRole("Graduate Software Developer");
             job3.setJobDescription("Cloud Architect");
             job3.setAppStage(Stage.SCREENING);
             job3.setUrl("https://amazon.com/jobs/3");

@@ -6,6 +6,7 @@ import JobsWidget from "./JobsWidget"
 
 interface Job {
     company: string;
+    jobRole: string;
     jobDescription: string;
     appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
     url: string;

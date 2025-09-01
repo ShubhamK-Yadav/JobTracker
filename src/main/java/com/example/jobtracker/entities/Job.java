@@ -1,6 +1,7 @@
 package com.example.jobtracker.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
@@ -9,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name= "jobs")
@@ -19,6 +22,9 @@ public class Job {
 
     @Column(nullable = false)
     private String company;
+
+    @Column(nullable = false)
+    private String jobRole;
 
     @Column(nullable = false)
     private String jobDescription;
@@ -32,6 +38,12 @@ public class Job {
 
     @Column(nullable = false)
     private BigDecimal salary;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public Job(){};
 
@@ -49,6 +61,14 @@ public class Job {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getJobRole() {
+        return jobRole;
+    }
+
+    public void setJobRole(String jobRole) {
+        this.jobRole= jobRole;
     }
 
     public String getJobDescription() {

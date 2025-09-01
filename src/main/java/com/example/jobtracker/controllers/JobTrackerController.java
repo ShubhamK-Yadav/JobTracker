@@ -1,24 +1,26 @@
 package com.example.jobtracker.controllers;
 
 import java.util.List;
-import com.example.jobtracker.dtos.JobCreateDTO;
-import com.example.jobtracker.dtos.JobResponseDTO;
+
+import com.example.jobtracker.dtos.*;
 import com.example.jobtracker.services.JobService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
@@ -26,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins="http://localhost:5173")
 public class JobTrackerController {
     private final JobService service;
-    private static final Logger logger = LoggerFactory.getLogger(JobTrackerController.class);
 
     JobTrackerController (JobService service){
         this.service= service;
@@ -37,24 +38,45 @@ public class JobTrackerController {
        return service.getAllJobs();
     }
 
-    // Uses the service to create the dto required and returns a ResponseEntity for error catching
-    @PostMapping("/create")
-    public ResponseEntity<?> createJob(@Valid @RequestBody JobCreateDTO dto){
-        try {
-            JobResponseDTO responseDTO = service.createJob(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+    @GetMapping
+    public ResponseEntity<JobResponseDTO> getJobById(@PathVariable Long id) {
+        JobResponseDTO job = service.getById(id);
+        return ResponseEntity.ok(job);
+    }
 
-        } catch (IllegalArgumentException e) {
-            logger.warn("Invalid arguments when creating job: {}", e.getMessage());
+    /**
+     * Create a job but use Data Transfer Object to hide the raw values being inserted in db.
+     * @param job create data transfer object
+     * @return ResponseEntity - status code alongside the dto object itself
+     */
+    @PostMapping
+    public ResponseEntity<JobResponseDTO> createJob(@Valid @RequestBody JobCreateDTO dto){
+        JobResponseDTO responseDTO = service.createJob(dto);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(responseDTO);
+    }
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Invalid arguments: " + e.getMessage());
+    /**
+     * Update job with id using the service method.
+     * @param id of job
+     * @param dto of job to update
+     * @return ResponseEntity ok status
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<JobUpdateDTO> updateJob(@PathVariable Long id, @Valid @RequestBody JobUpdateDTO dto) {
+        JobUpdateDTO updatedJob = service.updateJob(id, dto);
+        return ResponseEntity.ok(updatedJob);
+    }
 
-        } catch (Exception e) {
-            logger.error("Unexpected error: {}", e);
-
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("An unexpected error occurred: " + e.getMessage());
-        }
+    /**
+     * Delete job with id.
+     * @param id of job
+     * @return ResponseEntity no content
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteJob(@PathVariable Long id) {
+        service.deleteJob(id);
+        return ResponseEntity.noContent().build();
     }
 }
