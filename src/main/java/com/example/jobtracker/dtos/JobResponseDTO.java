@@ -4,7 +4,10 @@ import com.example.jobtracker.entities.Stage;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-// This DTO is used to create the job entity to create jobs in the db.
+/**
+* Data Transfer Object for sending data between layers.
+* Prevents exposing of direct data from the db.
+*/
 public class JobResponseDTO {
     private Long id;
     private String company;

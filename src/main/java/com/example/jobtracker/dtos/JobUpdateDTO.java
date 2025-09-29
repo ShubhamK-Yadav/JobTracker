@@ -4,6 +4,10 @@ import com.example.jobtracker.entities.Stage;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+* Data Transfer Object used when updating Jobs.
+* Prevents exposing of direct data from the db.
+*/
 public class JobUpdateDTO {
     private String company;
     private String jobRole;

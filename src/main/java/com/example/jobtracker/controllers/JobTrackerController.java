@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 @Validated
@@ -38,7 +36,7 @@ public class JobTrackerController {
        return service.getAllJobs();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<JobResponseDTO> getJobById(@PathVariable Long id) {
         JobResponseDTO job = service.getById(id);
         return ResponseEntity.ok(job);
