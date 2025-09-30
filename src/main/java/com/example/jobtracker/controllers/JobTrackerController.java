@@ -47,7 +47,7 @@ public class JobTrackerController {
      * @param job create data transfer object
      * @return ResponseEntity - status code alongside the dto object itself
      */
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<JobResponseDTO> createJob(@Valid @RequestBody JobCreateDTO dto){
         JobResponseDTO responseDTO = service.createJob(dto);
         return ResponseEntity
