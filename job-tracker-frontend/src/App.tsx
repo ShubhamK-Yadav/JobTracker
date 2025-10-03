@@ -1,5 +1,5 @@
 import './App.css'
-import Homepage from './dashboard-page/Homepage'
+import Homepage from './routes/Homepage'
 
 function App() {
 

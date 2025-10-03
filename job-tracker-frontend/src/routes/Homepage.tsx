@@ -1,16 +1,24 @@
-import Dashboard from "./Dashboard";
-import Searchbar from "./SearchBar";
-import Sidebar from "./SideBar";
+import Searchbar from "../components/SearchBar";
+import Sidebar from "../components/SideBar";
+import JobsWidget from "../components/JobsWidget";
 import {useEffect, useState} from 'react'
 
 /* Add type description for Job
 * Add types to each variable too
 * Look into the useEffect function */
+const enum AppStage {
+  APPLIED = "APPLIED", 
+  SCREENING = "SCREENING",
+  INTERVIEW = "INTERVIEW",
+  REJECTED = "REJECTED",
+  ACCEPTED = "ACCEPTED"
+}
+
 type Job = {
   company: string;
   jobRole: string;
   jobDescription: string;
-  appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
+  appStage: AppStage; 
   url: string;
   salary: number;
 }
@@ -35,6 +43,9 @@ export default function Homepage() {
     fetchJobs();
   }, []);
 
+  const appliedJobs = jobs.filter(jobs => jobs.appStage === "APPLIED")
+  const rejectedJobs = jobs.filter(jobs => jobs.appStage === "REJECTED") 
+
   return (
     <>
       <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
@@ -49,8 +60,13 @@ export default function Homepage() {
           <a href="/" className="text-blue-800 text-md bg-white">
             <button>Add Job</button>
           </a>
-          //add jobs props to the Dashboard
-          <Dashboard jobs={jobs}/>
+
+          <div className="bg-white dark:bg-gray-800 rounded-md px-6 py-8 ring shadow-xl ring-gray-900/5 text-white h-lvh ">
+            <h1 className="text-center text-3xl font-pixelify-sans"> Dashboard </h1>
+            <JobsWidget jobs={appliedJobs} appStage="Applied"/>
+            <JobsWidget jobs={rejectedJobs} appStage="Rejected"/>
+          </div>
+
         </main>
       </div>
     </>
