@@ -14,6 +14,7 @@
 //TODO: Change this to layout.tsx
 import {Outlet} from "react-router";
 import Sidebar from "./components/SideBar";
+import "./index.css";
 
 export default function Layout() {
   return (

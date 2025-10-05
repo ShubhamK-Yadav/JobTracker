@@ -1,6 +1,5 @@
 import {useNavigate} from "react-router"; 
-import Searchbar from "../components/SearchBar";
-import Sidebar from "../components/SideBar";
+import NavBar from "../components/NavBar";
 import JobsWidget from "../components/JobsWidget";
 import {useEffect, useState} from 'react'
 
@@ -41,27 +40,17 @@ export default function Homepage() {
 
   return (
     <>
-      <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 shadow-md">
-          <Sidebar />
-        </aside>
+      <NavBar/>
+      <a href="/" className="text-blue-800 text-md bg-white">
+        <button onClick={() => navigate("/")}>Add Job</button>
+      </a>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto">
-          <Searchbar/>
-          <a href="/" className="text-blue-800 text-md bg-white">
-            <button onClick={() => navigate("/")}>Add Job</button>
-          </a>
-
-          <div className="bg-white dark:bg-gray-800 rounded-md px-6 py-8 ring shadow-xl ring-gray-900/5 text-white h-lvh ">
-            <h1 className="text-center text-3xl font-Outlet, Navigation, pixelify-sans"> Dashboard </h1>
-            <JobsWidget jobs={appliedJobs} appStage="Applied"/>
-            <JobsWidget jobs={rejectedJobs} appStage="Rejected"/>
-          </div>
-
-        </main>
+      <div className="bg-white dark:bg-gray-800 rounded-md px-6 py-8 ring shadow-xl ring-gray-900/5 text-white h-lvh ">
+        <h1 className="text-center text-3xl font-Outlet, Navigation, pixelify-sans"> Dashboard </h1>
+        <JobsWidget jobs={appliedJobs} appStage="Applied"/>
+        <JobsWidget jobs={rejectedJobs} appStage="Rejected"/>
       </div>
+
     </>
   )
 }
