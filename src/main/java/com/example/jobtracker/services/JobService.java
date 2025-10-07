@@ -24,6 +24,7 @@ public class JobService {
 
         job.setCompany(dto.getCompany());
         job.setJobDescription(dto.getJobDescription());
+        job.setJobRole(dto.getJobRole());
         job.setAppStage(dto.getAppStage());
         job.setUrl(dto.getUrl());
         job.setSalary(dto.getSalary());
@@ -72,7 +73,7 @@ public class JobService {
 
     public JobResponseDTO convertToJobResponseDTO(Job job) {
         JobResponseDTO dto = new JobResponseDTO();
-
+        dto.setId(job.getId());
         dto.setCompany(job.getCompany());
         dto.setJobDescription(job.getJobDescription());
         dto.setAppStage(job.getAppStage());

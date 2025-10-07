@@ -1,9 +1,10 @@
 @import "tailwindcss";
-@import url(https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap);
 
 .search-jobs {
   border: 0.1em gray solid;
-  border-radius: 5em;
-  background-color: white;
+  border-radius: 5px;
+  background-color: #456882;
   padding: 0.3em;
+  margin: 0.2em;
+  width: 60%;
 }

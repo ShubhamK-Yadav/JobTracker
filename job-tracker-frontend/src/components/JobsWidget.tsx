@@ -1,4 +1,5 @@
 interface Job {
+    id: number;
     company: string;
     jobRole: string;
     jobDescription: string;
