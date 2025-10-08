@@ -5,7 +5,7 @@ export default function JobForm() {
         company: '',
         jobRole: '',
         jobDescription: '',
-        appStage: '',
+        appStage: 'APPLIED',
         url: '',
         salary: ''
     });
@@ -21,14 +21,14 @@ export default function JobForm() {
 
         const isJson = response.headers.get('content-type')?.includes('application/json');
         const data = isJson && await response.json();
-        
+
         if (!response.ok) {
             const error = (data && data.message) || response.status;
             console.log(isJson);
-            console.log(response);
+            console.log(response.body);
             return Promise.reject(error);
         } 
-    console.log("Data posted!")
+        console.log("Data posted!")
     }
 
     const handleChange = (e) =>{
@@ -40,28 +40,48 @@ export default function JobForm() {
     return (
         <>
             <div>
-                <form className="text-white">
-                    <label htmlFor="company">Company</label>
-                    <input id="company" type="text" onChange={handleChange} />
+                <form className="w-full max-w-lg">
+                    <div className="w-full px-3 py-2">
+                        <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="company">Company</label>
+                        <input className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4" id="company" type="text" onChange={handleChange} />
+                    </div>
 
-                    <label htmlFor="jobRole">Job Role</label>
-                    <input id="jobRole" type="text" onChange={handleChange} />
+                    <div className="w-full px-3 py-2">
+                        <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="jobRole">Job Role</label>
+                        <input className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4" id="jobRole" type="text" onChange={handleChange} />
+                    </div>
+                <div className="w-full px-3 py-2">
+                    <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="jobDescription">Description</label>
+                    <input className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4" id="jobDescription" type="text" onChange={handleChange} />
+                </div>
 
-                    <label htmlFor="jobDescription">Description</label>
-                    <input id="jobDescription" type="text" onChange={handleChange} />
+                <div className="w-full px-3 py-2">
+                    <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="appStage">Application Stage</label>
+                    <select onChange={handleChange} id="appStage" defaultValue="APPLIED" className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4">
+                        <option value="APPLIED"> Applied </option>
+                        <option value="SCREENING"> Screening </option>
+                        <option value="INTERVIEW"> Interview </option>
+                        <option value="REJECTED"> Rejected </option>
+                        <option value="ACCEPTED"> Accepted </option>
+                    </select>
+                </div>
 
-                    <label htmlFor="appStage">Stage</label>
-                    <input id="appStage" type="text" onChange={handleChange} />
+                <div className="w-full px-3 py-2">
+                    <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="url">URL</label>
+                    <input className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4" id="url" type="text" onChange={handleChange} />
+                </div>
 
-                    <label htmlFor="url">URL</label>
-                    <input id="url" type="text" onChange={handleChange} />
+                <div className="w-full px-3 py-2">
+                    <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="salary">Salary</label>
+                    <input className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4" id="salary" type="number" min="1000" step="1000" onChange={handleChange} />
+                </div>
+        </form>
 
-                    <label htmlFor="salary">Salary</label>
-                    <input id="salary" type="text" onChange={handleChange} />
-                </form>
 
-                <button className="text-white bg-black" onClick={postJob}> Submit Job</button>
-            </div>
+            <button className="text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5" onClick={postJob}> Submit Job</button>
+
+                <p>Selected App stage: {jobData.appStage}</p>
+        </div>
         </>
     );
 }
