@@ -19,16 +19,28 @@ public class JobService {
         this.repository = repository;
     }
 
-    public JobResponseDTO createJob(JobCreateDTO dto) {
-        Job job = new Job();
-
+    private void mapJobCreateDTOtoJob(JobCreateDTO dto, Job job) {
         job.setCompany(dto.getCompany());
         job.setJobDescription(dto.getJobDescription());
         job.setJobRole(dto.getJobRole());
         job.setAppStage(dto.getAppStage());
         job.setUrl(dto.getUrl());
         job.setSalary(dto.getSalary());
+    }
+    
+    private void mapJobUpdateDTOtoJob(JobUpdateDTO dto, Job job) {
+        job.setCompany(dto.getCompany());
+        job.setJobDescription(dto.getJobDescription());
+        job.setJobRole(dto.getJobRole());
+        job.setAppStage(dto.getAppStage());
+        job.setUrl(dto.getUrl());
+        job.setSalary(dto.getSalary());
+    }
 
+    public JobResponseDTO createJob(JobCreateDTO dto) {
+        Job job = new Job();
+        
+        mapJobCreateDTOtoJob(dto, job);
         Job savedJob = repository.save(job);
         return convertToJobResponseDTO(savedJob);
     }
@@ -56,13 +68,8 @@ public class JobService {
     public JobUpdateDTO updateJob(Long id, JobUpdateDTO dto) {
         Job job = repository.findById(id)
             .orElseThrow(() -> new JobNotFoundException(id));
-
-        job.setCompany(dto.getCompany());
-        job.setJobDescription(dto.getJobDescription());
-        job.setAppStage(dto.getAppStage());
-        job.setUrl(dto.getUrl());
-        job.setSalary(dto.getSalary());
-
+        
+        mapJobUpdateDTOtoJob(dto, job);
         Job updatedJob = repository.save(job);
         return convertToJobUpdateDTO(updatedJob);
     }
@@ -73,7 +80,9 @@ public class JobService {
 
     public JobResponseDTO convertToJobResponseDTO(Job job) {
         JobResponseDTO dto = new JobResponseDTO();
+
         dto.setId(job.getId());
+        dto.setJobRole(job.getJobRole());
         dto.setCompany(job.getCompany());
         dto.setJobDescription(job.getJobDescription());
         dto.setAppStage(job.getAppStage());
@@ -87,6 +96,7 @@ public class JobService {
         JobUpdateDTO dto = new JobUpdateDTO();
 
         dto.setCompany(job.getCompany());
+        dto.setJobRole(job.getJobRole());
         dto.setJobDescription(job.getJobDescription());
         dto.setAppStage(job.getAppStage());
         dto.setUrl(job.getUrl());
