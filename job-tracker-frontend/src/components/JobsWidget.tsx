@@ -6,6 +6,7 @@ interface Job {
     appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
     url: string;
     salary: number;
+    createdAt: string;
 }
 
 interface JobsWidgetProps{
@@ -14,7 +15,7 @@ interface JobsWidgetProps{
 }
 
 export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
-    const mostRecentJobs = jobs.slice(0, 5)
+    const mostRecentJobs = jobs.slice(0, 2)
 
     const recentJobs = () => {
         if (jobs.length === 0) {
@@ -29,7 +30,7 @@ export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
                         {mostRecentJobs.map(jobs =>
                             <li key={jobs.id}>
                                 Company: {jobs.company} <br/>
-                                Job Role: {jobs.jobRole}
+                                Job Role: {jobs.jobRole} <br/>
                             </li>
                         )}
                     </ul>

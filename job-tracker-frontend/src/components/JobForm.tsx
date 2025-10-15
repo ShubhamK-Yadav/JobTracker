@@ -1,35 +1,27 @@
 import {useState} from 'react';
 
-export default function JobForm() {
+type jobData = {
+    company: string; 
+    jobRole: string;
+    jobDescription: string;
+    appStage: string;
+    url: string;
+    salary: number 
+}
+
+interface AddJob {
+    request: (jobData: jobData) => Promise<void>; 
+}
+
+export default function JobForm({request}: AddJob) {
     const [jobData, setJobData] = useState({
         company: '',
         jobRole: '',
         jobDescription: '',
         appStage: 'APPLIED',
         url: '',
-        salary: ''
+        salary: 0 
     });
-
-    const requestOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(jobData)
-    }
-
-    const postJob = async () => {
-        const response = await fetch('http://localhost:8080/api/jobs/add', requestOptions);
-
-        const isJson = response.headers.get('content-type')?.includes('application/json');
-        const data = isJson && await response.json();
-
-        if (!response.ok) {
-            const error = (data && data.message) || response.status;
-            console.log(isJson);
-            console.log(response.body);
-            return Promise.reject(error);
-        } 
-        console.log("Data posted!")
-    }
 
     const handleChange = (e) =>{
         // name is used here mainly because html has `name` and `value`.
@@ -38,6 +30,9 @@ export default function JobForm() {
     } 
 
     return (
+
+    //TODO: modularise the form css into a css file so it can be used again and more concisely.
+    //NOTE: the css needs to be changed and made better even further. First, make it exist then make it better.
         <>
             <div className="w-full min-h-screen flex justify-center items-center bg-slate-400">
                 <div className="w-full max-w-lg bg-white border border-gray-200 rounded-2xl shadow-md p-6">
@@ -127,7 +122,7 @@ export default function JobForm() {
                         </div>
                     </form>
                     <div className="flex justify-center">
-                        <button className="mx-auto my-2 text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5" onClick={postJob}> Submit Job</button>
+                        <button className="mx-auto my-2 text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5" onClick={() => request(jobData)}> Submit Job</button>
                     </div>
                     <p>Selected App stage: {jobData.appStage}</p>
                 </div>

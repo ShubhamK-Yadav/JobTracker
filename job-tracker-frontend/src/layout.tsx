@@ -1,4 +1,3 @@
-//TODO: Change this to layout.tsx
 import {Outlet} from "react-router";
 import NavBar from "./components/NavBar";
 import "./index.css";

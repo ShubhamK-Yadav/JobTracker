@@ -19,6 +19,33 @@ public class JobService {
         this.repository = repository;
     }
 
+    private JobResponseDTO convertToJobResponseDTO(Job job) {
+        JobResponseDTO dto = new JobResponseDTO();
+
+        dto.setId(job.getId());
+        dto.setJobRole(job.getJobRole());
+        dto.setCompany(job.getCompany());
+        dto.setJobDescription(job.getJobDescription());
+        dto.setAppStage(job.getAppStage());
+        dto.setUrl(job.getUrl());
+        dto.setSalary(job.getSalary());
+
+        return dto;
+    }
+
+    private JobUpdateDTO convertToJobUpdateDTO(Job job) {
+        JobUpdateDTO dto = new JobUpdateDTO();
+
+        dto.setCompany(job.getCompany());
+        dto.setJobRole(job.getJobRole());
+        dto.setJobDescription(job.getJobDescription());
+        dto.setAppStage(job.getAppStage());
+        dto.setUrl(job.getUrl());
+        dto.setSalary(job.getSalary());
+
+        return dto;
+    }
+
     private void mapJobCreateDTOtoJob(JobCreateDTO dto, Job job) {
         job.setCompany(dto.getCompany());
         job.setJobDescription(dto.getJobDescription());
@@ -36,7 +63,7 @@ public class JobService {
         job.setUrl(dto.getUrl());
         job.setSalary(dto.getSalary());
     }
-
+    
     public JobResponseDTO createJob(JobCreateDTO dto) {
         Job job = new Job();
         
@@ -76,32 +103,5 @@ public class JobService {
 
     public void deleteJob(Long id) {
         repository.deleteById(id);
-    }
-
-    public JobResponseDTO convertToJobResponseDTO(Job job) {
-        JobResponseDTO dto = new JobResponseDTO();
-
-        dto.setId(job.getId());
-        dto.setJobRole(job.getJobRole());
-        dto.setCompany(job.getCompany());
-        dto.setJobDescription(job.getJobDescription());
-        dto.setAppStage(job.getAppStage());
-        dto.setUrl(job.getUrl());
-        dto.setSalary(job.getSalary());
-
-        return dto;
-    }
-
-    public JobUpdateDTO convertToJobUpdateDTO(Job job) {
-        JobUpdateDTO dto = new JobUpdateDTO();
-
-        dto.setCompany(job.getCompany());
-        dto.setJobRole(job.getJobRole());
-        dto.setJobDescription(job.getJobDescription());
-        dto.setAppStage(job.getAppStage());
-        dto.setUrl(job.getUrl());
-        dto.setSalary(job.getSalary());
-
-        return dto;
     }
 }
