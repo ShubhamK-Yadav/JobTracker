@@ -38,12 +38,15 @@ export default function Homepage() {
 
     return (
         <>
-            <button className="bg-blue-800 text-white text-md" onClick={() => navigate("/add-job")}>Add Job</button>
-
-            <div className="bg-white dark:bg-gray-800 rounded-md px-6 py-8 ring shadow-xl ring-gray-900/5 text-white h-lvh ">
-                <h1 className="text-center text-3xl font-Outlet, Navigation, pixelify-sans"> Dashboard </h1>
-                <JobsWidget jobs={appliedJobs} appStage="Applied"/>
-                <JobsWidget jobs={rejectedJobs} appStage="Rejected"/>
+            <div className="bg-zinc-100 dark:bg-gray-800 rounded-md mt-3 px-6 py-8 ring shadow-xl ring-gray-900/5 text-white h-lvh">
+                <div className="flex justify-between">
+                    <h1 className="text-black text-start text-3xl font-Outlet"> Dashboard </h1>
+                    <button className="bg-emerald-700 text-white text-md rounded-lg px-2 py-1" onClick={() => navigate("/add-job")}>Add Job</button>
+                </div> 
+                <div>
+                    <JobsWidget jobs={appliedJobs} appStage="Applied"/>
+                    <JobsWidget jobs={rejectedJobs} appStage="Rejected"/>
+                </div>
             </div>
 
         </>
