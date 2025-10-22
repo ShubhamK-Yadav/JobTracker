@@ -1,16 +1,14 @@
 import {CiDark, CiLight} from "react-icons/ci";
 
 interface navBarProps {
-    theme: string;
     setTheme: (theme: string) => void;
 }
 
-//TODO: Theme change throughout the app and make it persist after reload.
-export default function NavBar({theme, setTheme}: navBarProps) {
+export default function NavBar({setTheme}: navBarProps) {
 
     return (
         <>
-            <div className={`${theme ? "dark": ""} bg-zinc-100 flex justify-between dark:bg-zinc-400`}>
+            <div className="bg-zinc-100 flex justify-between dark:bg-zinc-400">
                 <h1 className="flex-initial p-2 font-bold text-emerald-700 text-xl"> Job Tracker </h1>
                 
                 <div className="flex rounded-md items-center ml-auto">
