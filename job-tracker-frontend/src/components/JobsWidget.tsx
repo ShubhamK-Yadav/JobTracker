@@ -1,4 +1,4 @@
-interface Job {
+type Job = {
     id: number;
     company: string;
     jobRole: string;
@@ -6,10 +6,9 @@ interface Job {
     appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
     url: string;
     salary: number;
-    createdAt: string;
 }
 
-interface JobsWidgetProps{
+type JobsWidgetProps = {
     jobs: Job[];
     appStage: string;
 }
@@ -40,7 +39,7 @@ export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
     }
 
     return (
-        <div className="w-md h-1/7 bg-gray-100 text-sky-900 m-8">
+        <div className="w-md h-1/7 bg-white text-sky-900 m-8 dark:bg-zinc-400 dark:text-white">
            <h2>Jobs {appStage} Widget</h2>
            <p>{appStage}: {jobs.length}</p>
            {recentJobs()}

@@ -24,7 +24,7 @@ export default function JobForm({request}: AddJob) {
     });
 
     const handleChange = (e) =>{
-        // name is used here mainly because html has `name` and `value`.
+        // id identifies different fields
         const {id, value} = e.target;
         setJobData(prevState => ({...prevState, [id]: value}));
     } 
