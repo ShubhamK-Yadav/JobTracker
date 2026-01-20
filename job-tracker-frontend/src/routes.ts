@@ -5,6 +5,7 @@ import {
   route
 } from "@react-router/dev/routes"
 
+// TODO: change JobsTable route to proper page with modular fetch request setup.
 export default [
   layout("./Layout.tsx", [
     index("./pages/Homepage.tsx"),

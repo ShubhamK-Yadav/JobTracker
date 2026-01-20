@@ -13,7 +13,7 @@ type JobsWidgetProps = {
     appStage: string;
 }
 
-export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
+export default function JobsWidget({ jobs, appStage }: JobsWidgetProps) {
     const mostRecentJobs = jobs.slice(0, 2)
 
     const recentJobs = () => {
@@ -28,8 +28,8 @@ export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
                     <ul>
                         {mostRecentJobs.map(jobs =>
                             <li key={jobs.id}>
-                                Company: {jobs.company} <br/>
-                                Job Role: {jobs.jobRole} <br/>
+                                Company: {jobs.company} <br />
+                                Job Role: {jobs.jobRole} <br />
                             </li>
                         )}
                     </ul>
@@ -40,9 +40,9 @@ export default function JobsWidget({jobs, appStage}: JobsWidgetProps){
 
     return (
         <div className="w-md h-1/7 bg-white text-sky-900 m-8 dark:bg-zinc-400 dark:text-white">
-           <h2>Jobs {appStage} Widget</h2>
-           <p>{appStage}: {jobs.length}</p>
-           {recentJobs()}
+            <h2>Jobs {appStage} Widget</h2>
+            <p>{appStage}: {jobs.length}</p>
+            {recentJobs()}
         </div>
     )
 }

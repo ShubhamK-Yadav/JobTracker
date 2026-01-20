@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import { useNavigate } from "react-router";
 
 type jobData = {
     company: string; 
@@ -23,11 +24,19 @@ export default function JobForm({request}: AddJob) {
         salary: 0 
     });
 
+    const navigate = useNavigate();
+
     const handleChange = (e) =>{
         // id identifies different fields
         const {id, value} = e.target;
         setJobData(prevState => ({...prevState, [id]: value}));
-    } 
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        request(jobData);
+        navigate("/");
+    }
 
     return (
 
@@ -40,7 +49,7 @@ export default function JobForm({request}: AddJob) {
                         Add Job
                     </h1>
 
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
                         <div>
                             <label className="block uppercase tracking-wide text-xs font-bold mb-2" htmlFor="company">
                                 Company
@@ -122,7 +131,7 @@ export default function JobForm({request}: AddJob) {
                         </div>
                     </form>
                     <div className="flex justify-center">
-                        <button className="mx-auto my-2 text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5" onClick={() => request(jobData)}> Submit Job</button>
+                        <button className="mx-auto my-2 text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5" onClick={handleSubmit}> Submit Job</button>
                     </div>
                     <p>Selected App stage: {jobData.appStage}</p>
                 </div>

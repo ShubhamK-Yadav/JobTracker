@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import JobRow from './JobRow';
 // TODO: Change this component such that it can be page like the addJob form.
 
 type Job = {
@@ -29,6 +29,18 @@ export default function JobsTable() {
                 console.error("Failed to fetch jobs: ", err);
             }
         }
+
+        // Clicking the pencil icon should fetch the information about that job
+        const editJobs = async (id: number) => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/jobs/${id}`);
+                if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                console.log(response);
+            } catch (err) {
+                console.error(`Failed to fetch job: ${id}`);
+            }
+        }
+        editJobs(1);
         fetchJobs();
     }, []);
 
@@ -40,42 +52,32 @@ export default function JobsTable() {
         } else {
             return (
                 <>
-                    {jobs.map(jobs =>
-                        <tr key={jobs.id}>
-                            <td>{jobs.id}</td>
-                            <td>{jobs.company}</td>
-                            <td>{jobs.jobRole}</td>
-                            <td>{jobs.jobDescription}</td>
-                            <td>{jobs.appStage}</td>
-                            <td>{jobs.url}</td>
-                            <td>{jobs.salary}</td>
-                            <td>{jobs.createdAt}</td>
-                            <td>
-                                <button>Show</button>
-                                <button>Update</button>
-                                <button>Delete</button>
-                            </td>
-                        </tr>
-                    )}
+                    <table className="w-4/5 mx-auto my-2 bg-slate-100 border-1 border-slate-400">
+                        <thead>
+                            <tr className="border-b-1 border-slate-400">
+                                <th>ID</th>
+                                <th>Company</th>
+                                <th>Job Role</th>
+                                <th>Job Description</th>
+                                <th>Application Stage</th>
+                                <th>URL</th>
+                                <th>Salary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {jobs.map(job => (
+                                <JobRow key={job.id} job={job} />
+                            ))}
+                        </tbody>
+                    </table>
                 </>
             )
         }
     }
     return (
         <>
-            <table className="w-4/5 mx-auto my-2 bg-slate-100 border-1 border-slate-400">
-                <tr className="border-b-1 border-slate-400">
-                    <th>ID</th>
-                    <th>Company</th>
-                    <th>Job Role</th>
-                    <th>Job Description</th>
-                    <th>Application Stage</th>
-                    <th>URL</th>
-                    <th>Salary</th>
-                    <th>Actions</th>
-                </tr>
-                {renderJobs()}
-            </table>
+            {renderJobs()}
         </>
     )
 }
