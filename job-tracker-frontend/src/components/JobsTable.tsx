@@ -55,9 +55,10 @@ export default function JobsTable() {
     }
 
     const response = await fetch(`http://localhost:8080/api/jobs/${id}`, requestOptions);
-
     const isJson = response.headers.get('content-type')?.includes('application/json');
     const data = isJson && await response.json();
+    const updatedJobs = jobs.map(j => (j.id === id ? { ...j, ...data } : j));
+    setJobs(updatedJobs);
 
     if (!response.ok) {
       const error = (data && data.message) || response.status;
@@ -80,7 +81,6 @@ export default function JobsTable() {
         console.error("Failed to fetch jobs: ", err);
       }
     };
-
     fetchJobs();
   }, []);
 

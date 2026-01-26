@@ -32,7 +32,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             Company
           </label>
           <input
-            className="block w-full bg-zinc-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="company"
             type="text"
             onChange={handleChange}
@@ -48,7 +48,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             Job Role
           </label>
           <input
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="jobRole"
             type="text"
             onChange={handleChange}
@@ -64,7 +64,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             Description
           </label>
           <input
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="jobDescription"
             type="text"
             onChange={handleChange}
@@ -83,7 +83,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             onChange={handleChange}
             id="appStage"
             defaultValue={state.appStage}
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
           >
             <option value="APPLIED">Applied</option>
             <option value="SCREENING">Screening</option>
@@ -101,7 +101,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             URL
           </label>
           <input
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="url"
             type="text"
             onChange={handleChange}
@@ -117,7 +117,7 @@ export default function JobForm({ text, state, handleChange, handleSubmit }: Pro
             Salary
           </label>
           <input
-            className="block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4"
+            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="salary"
             type="number"
             min="1000"

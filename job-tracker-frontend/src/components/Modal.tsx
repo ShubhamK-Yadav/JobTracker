@@ -1,6 +1,7 @@
 import { createPortal } from "react-dom";
 import JobForm from "./JobForm";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 type Job = {
   id: number;
@@ -41,27 +42,7 @@ export default function Modal({ isActive, job, onClose, request }: Prop) {
     salary: job.salary,
   });
 
-  useEffect(() => {
-    if (job) {
-      setJobData({
-        company: job.company,
-        jobRole: job.jobRole,
-        jobDescription: job.jobDescription,
-        appStage: job.appStage,
-        url: job.url,
-        salary: job.salary,
-      })
-    } else {
-      setJobData({
-        company: '',
-        jobRole: '',
-        jobDescription: '',
-        appStage: 'APPLIED',
-        url: '',
-        salary: 0,
-      })
-    }
-  }, [job]);
+  const navigate = useNavigate();
 
   const handleChange = (e: HandleEvent) => {
     // id identifies different fields
@@ -73,12 +54,13 @@ export default function Modal({ isActive, job, onClose, request }: Prop) {
     e.preventDefault();
     await request(job.id, jobData);
     onClose();
+    navigate("/jobs-table");
   }
 
   if (!isActive) return null;
   return createPortal(
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-400/50 ">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-400/60 ">
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg opacity-100">
           <JobForm
             text="Edit Form"
