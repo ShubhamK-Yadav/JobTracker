@@ -116,11 +116,13 @@ export default function JobsTable() {
   return <>
     {renderJobs()}
     {isModalOpen && selectedJob && (
-      <Modal
-        isActive={isModalOpen}
-        job={selectedJob}
-        onClose={() => setIsModalOpen(false)}
-        request={updateJob} />
+      <>
+        <Modal
+          isActive={isModalOpen}
+          job={selectedJob}
+          onClose={() => setIsModalOpen(false)}
+          request={updateJob} />
+      </>
     )}
   </>;
 }

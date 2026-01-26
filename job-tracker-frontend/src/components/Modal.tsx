@@ -1,6 +1,6 @@
 import { createPortal } from "react-dom";
 import JobForm from "./JobForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Job = {
   id: number;
@@ -31,7 +31,6 @@ type Prop = {
 
 type HandleEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
-// NOTE: Should take input text, handleSubmit should close the modal
 export default function Modal({ isActive, job, onClose, request }: Prop) {
   const [jobData, setJobData] = useState({
     company: job.company,
@@ -42,6 +41,28 @@ export default function Modal({ isActive, job, onClose, request }: Prop) {
     salary: job.salary,
   });
 
+  useEffect(() => {
+    if (job) {
+      setJobData({
+        company: job.company,
+        jobRole: job.jobRole,
+        jobDescription: job.jobDescription,
+        appStage: job.appStage,
+        url: job.url,
+        salary: job.salary,
+      })
+    } else {
+      setJobData({
+        company: '',
+        jobRole: '',
+        jobDescription: '',
+        appStage: 'APPLIED',
+        url: '',
+        salary: 0,
+      })
+    }
+  }, [job]);
+
   const handleChange = (e: HandleEvent) => {
     // id identifies different fields
     const { id, value } = e.target;
@@ -50,18 +71,24 @@ export default function Modal({ isActive, job, onClose, request }: Prop) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    request(job.id, jobData);
+    await request(job.id, jobData);
     onClose();
   }
 
   if (!isActive) return null;
-
   return createPortal(
-    <JobForm
-      text="Edit Form"
-      handleChange={handleChange}
-      handleSubmit={handleSubmit}
-    />,
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-400/50 ">
+        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg opacity-100">
+          <JobForm
+            text="Edit Form"
+            state={jobData}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+      </div>
+    </>,
     document.body
   );
 }
