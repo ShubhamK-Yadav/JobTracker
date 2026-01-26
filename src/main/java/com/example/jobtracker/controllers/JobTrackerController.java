@@ -46,8 +46,7 @@ public class JobTrackerController {
     }
 
     /**
-     * Create a job but use Data Transfer Object to hide the raw values being
-     * inserted in db.
+     * Create a job but use Data Transfer Object to hide the raw values
      *
      * @param job create data transfer object
      * @return ResponseEntity - status code alongside the dto object itself

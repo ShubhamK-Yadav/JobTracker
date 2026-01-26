@@ -1,12 +1,12 @@
-import JobForm from "../components/JobForm";
+import JobForm from "../components/PostJobForm";
 
 type jobData = {
-    company: string; 
+    company: string;
     jobRole: string;
     jobDescription: string;
     appStage: string;
     url: string;
-    salary: number 
+    salary: number
 }
 
 export default function AddJobs() {
@@ -28,7 +28,7 @@ export default function AddJobs() {
             console.log(isJson);
             console.log(response.body);
             return Promise.reject(error);
-        } 
+        }
         console.log("Data posted!")
     }
 
