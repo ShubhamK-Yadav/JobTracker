@@ -3,9 +3,6 @@ import JobRow from "./JobRow";
 import FormModal from "./FormModal";
 import DeleteModal from "./DeleteModal";
 
-// TODO: editJob -> Bring up Modal with pre-existing info to edit and save.
-// TODO: The delete button should delete the job permanently (prompt user to make sure)
-
 type Job = {
   id: number;
   company: string;
@@ -23,8 +20,8 @@ type jobData = {
   jobDescription: string;
   appStage: string;
   url: string;
-  salary: number
-}
+  salary: number;
+};
 
 export default function JobsTable() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -33,140 +30,119 @@ export default function JobsTable() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const loadJobData = async (id: number) => {
-    console.log("Loading Job Data!");
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/jobs/${id}`,
-      );
-
+      const response = await fetch(`http://localhost:8080/api/jobs/${id}`);
       if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
       const job = await response.json();
       setSelectedJob(job);
       setIsFormModalOpen(true);
-      console.log(job);
-
     } catch (err) {
-      console.error(`Failed to fetch job: ${id} ${err}`);
+      console.error(err);
     }
   };
 
   const updateJob = async (jobdata: jobData, id: number) => {
-    const requestOptions = {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`http://localhost:8080/api/jobs/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(jobdata),
-    }
+    });
 
-    const response = await fetch(`http://localhost:8080/api/jobs/${id}`, requestOptions);
-    const isJson = response.headers.get('content-type')?.includes('application/json');
-    const data = isJson && await response.json();
-    const updatedJobs = jobs.map(j => (j.id === id ? { ...j, ...data } : j));
-    setJobs(updatedJobs);
+    const data = await response.json();
+    setJobs(prev => prev.map(j => (j.id === id ? { ...j, ...data } : j)));
 
-    if (!response.ok) {
-      const error = (data && data.message) || response.status;
-      console.log(isJson, response.body);
-      return Promise.reject(error);
-    }
-    console.log("Job Updated!");
-  }
+    if (!response.ok) return Promise.reject(data?.message || response.status);
+  };
 
   const handleRequest = async (jobData: jobData, id?: number) => {
     if (!id) return;
     await updateJob(jobData, id);
-  }
+  };
 
   const promptDelete = (job: Job) => {
     setSelectedJob(job);
     setIsDeleteModalOpen(true);
-  }
+  };
 
   const deleteJob = async (id: number) => {
-    const requestOptions = {
-      method: 'DELETE',
-    }
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/jobs/${id}`, requestOptions);
-
-      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-      console.log(response);
-      // Update UI by filtering the list of jobs
-      setJobs(prevJobs => prevJobs.filter(job => job.id !== id));
-    } catch (err) {
-      console.error("Failed to DELETE job due to: ", err);
-    }
-  }
+    const response = await fetch(`http://localhost:8080/api/jobs/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) throw new Error(`Failed to delete: ${response.status}`);
+    setJobs(prev => prev.filter(job => job.id !== id));
+  };
 
   useEffect(() => {
     const fetchJobs = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/api/jobs");
-
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-        const data: Job[] = await response.json();
-        console.log(response);
-        setJobs(data);
-      } catch (err) {
-        console.error("Failed to fetch jobs: ", err);
-      }
+      const response = await fetch("http://localhost:8080/api/jobs");
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+      const data: Job[] = await response.json();
+      setJobs(data);
     };
     fetchJobs();
   }, []);
 
-  const renderJobs = () => {
-    if (jobs.length === 0) {
-      return <p> No jobs to list.</p>;
-    } else {
-      return (
-        <>
-          <table className="w-4/5 mx-auto my-2 bg-slate-100 border-1 border-slate-400">
-            <thead>
-              <tr className="border-b-1 border-slate-400">
-                <th>ID</th>
-                <th>Company</th>
-                <th>Job Role</th>
-                <th>Job Description</th>
-                <th>Application Stage</th>
-                <th>URL</th>
-                <th>Salary</th>
-                <th>Actions</th>
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <h1 className="text-3xl font-bold text-slate-800">Jobs Dashboard</h1>
+        <button
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition"
+          onClick={() => setIsFormModalOpen(true)}
+        >
+          Add Job
+        </button>
+      </div>
+
+      {jobs.length === 0 ? (
+        <p className="text-center text-gray-500 mt-6">No jobs to list.</p>
+      ) : (
+        <div className="overflow-x-auto rounded-lg shadow-lg">
+          <table className="min-w-full divide-y divide-slate-200 bg-white">
+            <thead className="bg-slate-200">
+              <tr>
+                {["ID", "Company", "Job Role", "Description", "Stage", "URL", "Salary", "Date", "Actions"].map(header => (
+                  <th
+                    key={header}
+                    className="px-6 py-3 text-left text-sm font-medium text-slate-700 uppercase tracking-wider"
+                  >
+                    {header}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody>
-              {jobs.map((job) => (
-                <JobRow key={job.id} job={job} loadJobData={loadJobData} promptDelete={promptDelete} />
+            <tbody className="divide-y divide-slate-200">
+              {jobs.map((job, idx) => (
+                <tr
+                  key={job.id}
+                  className={idx % 2 === 0 ? "bg-white hover:bg-slate-50" : "bg-slate-50 hover:bg-slate-100"}
+                >
+                  <JobRow job={job} loadJobData={loadJobData} promptDelete={promptDelete} />
+                </tr>
               ))}
             </tbody>
           </table>
-        </>
-      );
-    }
-  };
-  return <>
-    {renderJobs()}
-    {isFormModalOpen && selectedJob && (
-      <>
+        </div>
+      )}
+
+      {isFormModalOpen && selectedJob && (
         <FormModal
-          title={"Edit Form"}
+          title="Edit Job"
           isActive={isFormModalOpen}
           job={selectedJob}
           request={handleRequest}
           onClose={() => setIsFormModalOpen(false)}
         />
+      )}
 
-      </>
-    )}
-
-    {isDeleteModalOpen && selectedJob && (
-      <>
+      {isDeleteModalOpen && selectedJob && (
         <DeleteModal
           isOpen={isDeleteModalOpen}
           jobId={selectedJob.id}
           request={deleteJob}
           onClose={() => setIsDeleteModalOpen(false)}
         />
-      </>
-    )}
-  </>;
+      )}
+    </div>
+  );
 }

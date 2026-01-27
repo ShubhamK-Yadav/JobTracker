@@ -51,7 +51,7 @@ export default function FormModal({ title, isActive, job, request, onClose }: Pr
         appStage: job.appStage,
         url: job.url,
         salary: job.salary,
-      })
+      });
     } else {
       setJobData({
         company: '',
@@ -60,40 +60,48 @@ export default function FormModal({ title, isActive, job, request, onClose }: Pr
         appStage: "APPLIED",
         url: '',
         salary: 0,
-      })
+      });
     }
-  }, [job])
+  }, [job]);
 
   const handleChange = (e: HandleEvent) => {
-    // id identifies different fields
     const { id, value } = e.target;
-    setJobData(prevState => ({ ...prevState, [id]: value }));
-  }
+    setJobData(prev => ({
+      ...prev,
+      [id]: id === "salary" ? Number(value) : value
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (job) {
-      await request(job, job.id);
-    } else {
-      await request(jobData);
-    }
+    if (job) await request(jobData, job.id);
+    else await request(jobData);
     onClose();
-  }
+  };
 
   if (!isActive) return null;
+
   return createPortal(
-    <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-400/60 ">
-        <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg opacity-100">
-          <JobForm
-            title={title}
-            state={jobData}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+      <div className="w-full max-w-xl bg-white rounded-2xl shadow-2xl p-8 relative animate-fadeIn">
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-xl"
+        >
+          ✕
+        </button>
+
+        <JobForm
+          title={title}
+          state={jobData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          onCancel={onClose}
+        />
       </div>
-    </>,
+    </div>,
     document.body
   );
 }

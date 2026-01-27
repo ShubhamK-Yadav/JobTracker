@@ -1,48 +1,47 @@
 type Job = {
-    id: number;
-    company: string;
-    jobRole: string;
-    jobDescription: string;
-    appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
-    url: string;
-    salary: number;
+  id: number;
+  company: string;
+  jobRole: string;
+  jobDescription: string;
+  appStage: "APPLIED" | "SCREENING" | "INTERVIEW" | "REJECTED" | "ACCEPTED"
+  url: string;
+  salary: number;
 }
 
 type JobsWidgetProps = {
-    jobs: Job[];
-    appStage: string;
+  jobs: Job[];
+  appStage: string;
 }
 
 export default function JobsWidget({ jobs, appStage }: JobsWidgetProps) {
-    const mostRecentJobs = jobs.slice(0, 2)
+  const mostRecentJobs = jobs.slice(0, 2)
 
-    const recentJobs = () => {
-        if (jobs.length === 0) {
-            return (
-                <p>No jobs to list</p>
-            );
-        } else {
-            return (
-                <>
-                    <p>Most recent jobs:</p>
-                    <ul>
-                        {mostRecentJobs.map(jobs =>
-                            <li key={jobs.id}>
-                                Company: {jobs.company} <br />
-                                Job Role: {jobs.jobRole} <br />
-                            </li>
-                        )}
-                    </ul>
-                </>
-            );
-        }
-    }
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-200">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold text-slate-800">
+          {appStage} Jobs
+        </h2>
+        <span className="bg-sky-100 text-sky-700 text-sm font-semibold px-3 py-1 rounded-full">
+          {jobs.length}
+        </span>
+      </div>
 
-    return (
-        <div className="w-md h-1/7 bg-white text-sky-900 m-8 dark:bg-zinc-400 dark:text-white">
-            <h2>Jobs {appStage} Widget</h2>
-            <p>{appStage}: {jobs.length}</p>
-            {recentJobs()}
-        </div>
-    )
+      {jobs.length === 0 ? (
+        <p className="text-slate-500 text-sm">No jobs in this stage yet.</p>
+      ) : (
+        <ul className="space-y-3">
+          {mostRecentJobs.map(job => (
+            <li
+              key={job.id}
+              className="p-3 bg-slate-50 rounded-lg border border-slate-100"
+            >
+              <p className="font-medium text-slate-700">{job.company}</p>
+              <p className="text-sm text-slate-500">{job.jobRole}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
 }

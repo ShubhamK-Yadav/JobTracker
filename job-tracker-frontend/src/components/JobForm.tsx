@@ -7,83 +7,63 @@ type jobData = {
   salary: number
 }
 
+type FieldConfig = {
+  id: keyof jobData;
+  label: string;
+  type: "text" | "number";
+};
+
+const fields: FieldConfig[] = [
+  { id: "company", label: "Company", type: "text" },
+  { id: "jobRole", label: "Job Role", type: "text" },
+  { id: "jobDescription", label: "Description", type: "text" },
+  { id: "url", label: "Job URL", type: "text" },
+];
+
 type Props = {
   title: string;
   state: jobData;
   handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onCancel: () => void;
 };
 
-export default function JobForm({ title, state, handleChange, handleSubmit }: Props) {
+export default function JobForm({ title, state, handleChange, handleSubmit, onCancel }: Props) {
   return (
     <>
-      <h1 className="text-2xl font-semibold text-center tracking-tight uppercase leading-tight mb-4">
+      <h1 className="text-3xl font-bold text-center text-slate-800 mb-6">
         {title}
       </h1>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="company"
-          >
-            Company
-          </label>
-          <input
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
-            id="company"
-            type="text"
-            onChange={handleChange}
-            value={state.company}
-          />
-        </div>
+      <form className="space-y-5" onSubmit={handleSubmit}>
+        {/* Input Template */}
+        {fields.map(field => (
+          <div key={field.id}>
+            <label className="block text-sm font-semibold text-slate-600 mb-1">
+              {field.label}
+            </label>
+            <input
+              id={field.id}
+              type={field.type}
+              value={state[field.id]}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition"
+            />
+          </div>
+        ))}
 
+        {/* Stage */}
         <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="jobRole"
-          >
-            Job Role
-          </label>
-          <input
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
-            id="jobRole"
-            type="text"
-            onChange={handleChange}
-            value={state.jobRole}
-          />
-        </div>
-
-        <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="jobDescription"
-          >
-            Description
-          </label>
-          <input
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
-            id="jobDescription"
-            type="text"
-            onChange={handleChange}
-            value={state.jobDescription}
-          />
-        </div>
-
-        <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="appStage"
-          >
+          <label className="block text-sm font-semibold text-slate-600 mb-1">
             Application Stage
           </label>
           <select
-            onChange={handleChange}
             id="appStage"
-            defaultValue={state.appStage}
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
+            value={state.appStage}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
           >
             <option value="APPLIED">Applied</option>
             <option value="SCREENING">Screening</option>
@@ -93,45 +73,37 @@ export default function JobForm({ title, state, handleChange, handleSubmit }: Pr
           </select>
         </div>
 
+        {/* Salary */}
         <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="url"
-          >
-            URL
-          </label>
-          <input
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
-            id="url"
-            type="text"
-            onChange={handleChange}
-            value={state.url}
-          />
-        </div>
-
-        <div>
-          <label
-            className="block uppercase tracking-wide text-xs font-bold mb-2"
-            htmlFor="salary"
-          >
+          <label className="block text-sm font-semibold text-slate-600 mb-1">
             Salary
           </label>
           <input
-            className="block w-full bg-zinc-100 border border-gray-200 rounded py-3 px-4"
             id="salary"
             type="number"
-            min="1000"
+            min="0"
             step="1000"
-            onChange={handleChange}
             value={state.salary}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
           />
         </div>
-        <div className="flex justify-center">
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-3 pt-4">
           <button
-            className="mx-auto text-white font-semibold bg-sky-600 hover:bg-sky-700 rounded-full px-1 py-1.5"
-            type="submit"
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 transition"
           >
-            Submit Job
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            className="px-5 py-2 rounded-lg bg-sky-600 text-white font-semibold hover:bg-sky-700 shadow-md transition"
+          >
+            Save Job
           </button>
         </div>
       </form>

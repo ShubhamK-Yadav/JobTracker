@@ -18,34 +18,36 @@ type Props = {
 };
 
 export default function JobRow({ job, loadJobData, promptDelete }: Props) {
-
   return (
-    <tr>
-      <td>{job.id}</td>
-      <td>{job.company}</td>
-      <td>{job.jobRole}</td>
-      <td>{job.jobDescription}</td>
-      <td>{job.appStage}</td>
-      <td>{job.url}</td>
-      <td>£{job.salary}</td>
-      <td>{job.createdAt}</td>
-      <td className="flex items-center justify-center gap-3">
+    <>
+      <td className="px-6 py-4 text-sm text-slate-700">{job.id}</td>
+      <td className="px-6 py-4 text-sm text-slate-700">{job.company}</td>
+      <td className="px-6 py-4 text-sm text-slate-700">{job.jobRole}</td>
+      <td className="px-6 py-4 text-sm text-slate-700 truncate max-w-xs">{job.jobDescription}</td>
+      <td className="px-6 py-4 text-sm text-slate-700 font-medium">{job.appStage}</td>
+      <td className="px-6 py-4 text-sm text-blue-600 hover:underline">
+        <a href={job.url} target="_blank" rel="noopener noreferrer">
+          Link
+        </a>
+      </td>
+      <td className="px-6 py-4 text-sm text-slate-700">£{job.salary}</td>
+      <td className="px-6 py-4 text-sm text-slate-500">{new Date(job.createdAt).toLocaleDateString()}</td>
+      <td className="px-6 py-4 flex justify-center items-center gap-3">
         <button
-          className="p-2 rounded-md hover:bg-gray-200 transition"
+          className="p-2 rounded-md hover:bg-blue-100 transition"
           title="Edit"
           onClick={() => loadJobData(job.id)}
         >
-          <BsPencilFill className="text-gray-600 hover:text-blue-600" />
+          <BsPencilFill className="text-blue-600" />
         </button>
-
         <button
-          className="p-2 rounded-md hover:bg-gray-200 transition"
+          className="p-2 rounded-md hover:bg-red-100 transition"
           title="Delete"
           onClick={() => promptDelete(job)}
         >
-          <BsFillTrashFill className="text-gray-600 hover:text-red-600" />
+          <BsFillTrashFill className="text-red-600" />
         </button>
       </td>
-    </tr>
-  )
+    </>
+  );
 }
