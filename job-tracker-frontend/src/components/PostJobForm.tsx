@@ -45,7 +45,7 @@ export default function PostJobForm({ request }: AddJob) {
     <div className="w-full min-h-screen flex justify-center items-center bg-slate-500/50">
       <div className="w-full max-w-lg bg-white border border-gray-200 rounded-2xl shadow-md p-6">
         <JobForm
-          text={"ADD JOB"}
+          title={"ADD JOB"}
           state={jobData}
           handleChange={handleChange}
           handleSubmit={handleSubmit}

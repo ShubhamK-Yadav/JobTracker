@@ -50,7 +50,7 @@ export default function JobsTable() {
     }
   };
 
-  const updateJob = async (id: number, jobdata: jobData) => {
+  const updateJob = async (jobdata: jobData, id: number) => {
     const requestOptions = {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -69,6 +69,11 @@ export default function JobsTable() {
       return Promise.reject(error);
     }
     console.log("Job Updated!");
+  }
+
+  const handleRequest = async (jobData: jobData, id?: number) => {
+    if (!id) return;
+    await updateJob(jobData, id);
   }
 
   const promptDelete = (job: Job) => {
@@ -143,10 +148,13 @@ export default function JobsTable() {
     {isFormModalOpen && selectedJob && (
       <>
         <FormModal
+          title={"Edit Form"}
           isActive={isFormModalOpen}
           job={selectedJob}
+          request={handleRequest}
           onClose={() => setIsFormModalOpen(false)}
-          request={updateJob} />
+        />
+
       </>
     )}
 

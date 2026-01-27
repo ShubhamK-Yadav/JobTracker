@@ -1,7 +1,6 @@
 import { createPortal } from "react-dom";
 import JobForm from "./JobForm";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 type Job = {
   id: number;
@@ -24,25 +23,46 @@ type jobData = {
 }
 
 type Prop = {
+  title: string;
   isActive: boolean;
-  job: Job;
+  job: Job | null;
+  request: (jobData: jobData, id?: number) => Promise<void>;
   onClose: () => (void);
-  request: (id: number, jobData: jobData) => Promise<void>;
 }
 
 type HandleEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
-export default function FormModal({ isActive, job, onClose, request }: Prop) {
+export default function FormModal({ title, isActive, job, request, onClose }: Prop) {
   const [jobData, setJobData] = useState({
-    company: job.company,
-    jobRole: job.jobRole,
-    jobDescription: job.jobDescription,
-    appStage: job.appStage,
-    url: job.url,
-    salary: job.salary,
+    company: '',
+    jobRole: '',
+    jobDescription: '',
+    appStage: "APPLIED",
+    url: '',
+    salary: 0,
   });
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (job) {
+      setJobData({
+        company: job.company,
+        jobRole: job.jobRole,
+        jobDescription: job.jobDescription,
+        appStage: job.appStage,
+        url: job.url,
+        salary: job.salary,
+      })
+    } else {
+      setJobData({
+        company: '',
+        jobRole: '',
+        jobDescription: '',
+        appStage: "APPLIED",
+        url: '',
+        salary: 0,
+      })
+    }
+  }, [job])
 
   const handleChange = (e: HandleEvent) => {
     // id identifies different fields
@@ -52,9 +72,12 @@ export default function FormModal({ isActive, job, onClose, request }: Prop) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await request(job.id, jobData);
+    if (job) {
+      await request(job, job.id);
+    } else {
+      await request(jobData);
+    }
     onClose();
-    navigate("/jobs-table");
   }
 
   if (!isActive) return null;
@@ -63,7 +86,7 @@ export default function FormModal({ isActive, job, onClose, request }: Prop) {
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-400/60 ">
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-lg opacity-100">
           <JobForm
-            text="Edit Form"
+            title={title}
             state={jobData}
             handleChange={handleChange}
             handleSubmit={handleSubmit}

@@ -8,7 +8,7 @@ type jobData = {
 }
 
 type Props = {
-  text: string;
+  title: string;
   state: jobData;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -16,11 +16,11 @@ type Props = {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export default function JobForm({ text, state, handleChange, handleSubmit }: Props) {
+export default function JobForm({ title, state, handleChange, handleSubmit }: Props) {
   return (
     <>
       <h1 className="text-2xl font-semibold text-center tracking-tight uppercase leading-tight mb-4">
-        {text}
+        {title}
       </h1>
 
       <form className="space-y-4" onSubmit={handleSubmit}>
