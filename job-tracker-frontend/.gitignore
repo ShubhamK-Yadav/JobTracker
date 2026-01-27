@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .react-router/
 # Editor directories and files
+.zed/*
 .vscode/*
 !.vscode/extensions.json
 .idea
