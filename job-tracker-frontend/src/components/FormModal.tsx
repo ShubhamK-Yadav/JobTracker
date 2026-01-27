@@ -32,7 +32,7 @@ type Prop = {
 
 type HandleEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
 
-export default function Modal({ isActive, job, onClose, request }: Prop) {
+export default function FormModal({ isActive, job, onClose, request }: Prop) {
   const [jobData, setJobData] = useState({
     company: job.company,
     jobRole: job.jobRole,

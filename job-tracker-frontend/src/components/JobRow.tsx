@@ -14,9 +14,10 @@ type Job = {
 type Props = {
   job: Job;
   loadJobData: (id: number) => void;
+  promptDelete: (job: Job) => void;
 };
 
-export default function JobRow({ job, loadJobData }: Props) {
+export default function JobRow({ job, loadJobData, promptDelete }: Props) {
 
   return (
     <tr>
@@ -40,6 +41,7 @@ export default function JobRow({ job, loadJobData }: Props) {
         <button
           className="p-2 rounded-md hover:bg-gray-200 transition"
           title="Delete"
+          onClick={() => promptDelete(job)}
         >
           <BsFillTrashFill className="text-gray-600 hover:text-red-600" />
         </button>

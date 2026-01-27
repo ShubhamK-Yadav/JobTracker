@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import JobRow from "./JobRow";
-import Modal from "./Modal";
+import FormModal from "./FormModal";
+import DeleteModal from "./DeleteModal";
+
 // TODO: editJob -> Bring up Modal with pre-existing info to edit and save.
 // TODO: The delete button should delete the job permanently (prompt user to make sure)
 
@@ -27,7 +29,8 @@ type jobData = {
 export default function JobsTable() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const loadJobData = async (id: number) => {
     console.log("Loading Job Data!");
@@ -39,7 +42,7 @@ export default function JobsTable() {
       if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
       const job = await response.json();
       setSelectedJob(job);
-      setIsModalOpen(true);
+      setIsFormModalOpen(true);
       console.log(job);
 
     } catch (err) {
@@ -66,6 +69,28 @@ export default function JobsTable() {
       return Promise.reject(error);
     }
     console.log("Job Updated!");
+  }
+
+  const promptDelete = (job: Job) => {
+    setSelectedJob(job);
+    setIsDeleteModalOpen(true);
+  }
+
+  const deleteJob = async (id: number) => {
+    const requestOptions = {
+      method: 'DELETE',
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/jobs/${id}`, requestOptions);
+
+      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+      console.log(response);
+      // Update UI by filtering the list of jobs
+      setJobs(prevJobs => prevJobs.filter(job => job.id !== id));
+    } catch (err) {
+      console.error("Failed to DELETE job due to: ", err);
+    }
   }
 
   useEffect(() => {
@@ -105,7 +130,7 @@ export default function JobsTable() {
             </thead>
             <tbody>
               {jobs.map((job) => (
-                <JobRow key={job.id} job={job} loadJobData={loadJobData} />
+                <JobRow key={job.id} job={job} loadJobData={loadJobData} promptDelete={promptDelete} />
               ))}
             </tbody>
           </table>
@@ -115,13 +140,24 @@ export default function JobsTable() {
   };
   return <>
     {renderJobs()}
-    {isModalOpen && selectedJob && (
+    {isFormModalOpen && selectedJob && (
       <>
-        <Modal
-          isActive={isModalOpen}
+        <FormModal
+          isActive={isFormModalOpen}
           job={selectedJob}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setIsFormModalOpen(false)}
           request={updateJob} />
+      </>
+    )}
+
+    {isDeleteModalOpen && selectedJob && (
+      <>
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          jobId={selectedJob.id}
+          request={deleteJob}
+          onClose={() => setIsDeleteModalOpen(false)}
+        />
       </>
     )}
   </>;
