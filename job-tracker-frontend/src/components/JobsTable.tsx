@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import JobRow from "./JobRow";
 import FormModal from "./FormModal";
 import DeleteModal from "./DeleteModal";
+import { JobService } from "../services/JobServices";
 
 // TODO: Fix the Add Job Button on this page.
 
@@ -32,28 +33,14 @@ export default function JobsTable() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const loadJobData = async (id: number) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/jobs/${id}`);
-      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-      const job = await response.json();
-      setSelectedJob(job);
-      setIsFormModalOpen(true);
-    } catch (err) {
-      console.error(err);
-    }
+    const job = await JobService.getJobByID(id);
+    setSelectedJob(job);
+    setIsFormModalOpen(true);
   };
 
-  const updateJob = async (jobdata: jobData, id: number) => {
-    const response = await fetch(`http://localhost:8080/api/jobs/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(jobdata),
-    });
-
-    const data = await response.json();
+  const updateJob = async (jobData: jobData, id: number) => {
+    const data = await JobService.updateJob(jobData, id);
     setJobs(prev => prev.map(j => (j.id === id ? { ...j, ...data } : j)));
-
-    if (!response.ok) return Promise.reject(data?.message || response.status);
   };
 
   const handleRequest = async (jobData: jobData, id?: number) => {
@@ -67,18 +54,13 @@ export default function JobsTable() {
   };
 
   const deleteJob = async (id: number) => {
-    const response = await fetch(`http://localhost:8080/api/jobs/${id}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error(`Failed to delete: ${response.status}`);
+    await JobService.deleteJob(id);
     setJobs(prev => prev.filter(job => job.id !== id));
   };
 
   useEffect(() => {
     const fetchJobs = async () => {
-      const response = await fetch("http://localhost:8080/api/jobs");
-      if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-      const data: Job[] = await response.json();
+      const data: Job[] = await JobService.getJobs();
       setJobs(data);
     };
     fetchJobs();

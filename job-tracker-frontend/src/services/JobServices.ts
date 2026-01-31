@@ -34,7 +34,7 @@ export const JobService = {
     return response.json();
   },
 
-  async updateJob(id: number, jobdata: jobData) {
+  async updateJob(jobdata: jobData, id: number) {
     const requestOptions = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
