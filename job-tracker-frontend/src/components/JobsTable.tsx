@@ -3,6 +3,8 @@ import JobRow from "./JobRow";
 import FormModal from "./FormModal";
 import DeleteModal from "./DeleteModal";
 
+// TODO: Fix the Add Job Button on this page.
+
 type Job = {
   id: number;
   company: string;

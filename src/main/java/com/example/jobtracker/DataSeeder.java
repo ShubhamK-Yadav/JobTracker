@@ -14,7 +14,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private final JobRepository jobRepository;
     private final BigDecimal b1 = new BigDecimal(35000.00);
-    private final BigDecimal b2= new BigDecimal(34000.00);
+    private final BigDecimal b2 = new BigDecimal(34000.00);
     private final BigDecimal b3 = new BigDecimal(38000.00);
 
     public DataSeeder(JobRepository jobRepository) {
@@ -48,9 +48,17 @@ public class DataSeeder implements CommandLineRunner {
             job3.setUrl("https://amazon.com/jobs/3");
             job3.setSalary(b3);
 
-            jobRepository.saveAll(List.of(job1, job2, job3));
+            Job job4 = new Job();
+            job4.setCompany("OpenAI");
+            job4.setJobRole("Graduate Software Developer");
+            job4.setJobDescription("AI Researcher");
+            job4.setAppStage(Stage.APPLIED);
+            job4.setUrl("https://openai.com/jobs/1");
+            job4.setSalary(b1);
 
-            System.out.println("✅ Seeded sample jobs into database");
+            jobRepository.saveAll(List.of(job1, job2, job3, job4));
+
+            System.out.println(" Seeded sample jobs into database");
         }
     }
 }
