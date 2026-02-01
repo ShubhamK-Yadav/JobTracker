@@ -3,6 +3,7 @@ import JobRow from "./JobRow";
 import FormModal from "./FormModal";
 import DeleteModal from "./DeleteModal";
 import { JobService } from "../services/JobServices";
+import { CgAdd } from "react-icons/cg";
 
 // TODO: Fix the Add Job Button on this page.
 
@@ -29,7 +30,10 @@ type jobData = {
 export default function JobsTable() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [refreshJobs, setRefreshJobs] = useState(0);
+
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [isPostFormModalOpen, setIsPostFormModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const loadJobData = async (id: number) => {
@@ -37,6 +41,12 @@ export default function JobsTable() {
     setSelectedJob(job);
     setIsFormModalOpen(true);
   };
+
+  const postNewJob = async (jobData: jobData) => {
+    await JobService.postJob(jobData);
+    setIsPostFormModalOpen(true);
+    setRefreshJobs(prev => prev + 1);
+  }
 
   const updateJob = async (jobData: jobData, id: number) => {
     const data = await JobService.updateJob(jobData, id);
@@ -64,16 +74,17 @@ export default function JobsTable() {
       setJobs(data);
     };
     fetchJobs();
-  }, []);
+  }, [refreshJobs]);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <h1 className="text-3xl font-bold text-slate-800">Jobs Dashboard</h1>
         <button
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition"
-          onClick={() => setIsFormModalOpen(true)}
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded-lg shadow-md transition"
+          onClick={() => postNewJob}
         >
+          <CgAdd className="text-xl" />
           Add Job
         </button>
       </div>
@@ -116,6 +127,16 @@ export default function JobsTable() {
           job={selectedJob}
           request={handleRequest}
           onClose={() => setIsFormModalOpen(false)}
+        />
+      )}
+
+      {isPostFormModalOpen && (
+        <FormModal
+          title="Add Job"
+          isActive={isPostFormModalOpen}
+          job={null}
+          request={postNewJob}
+          onClose={() => setIsPostFormModalOpen(false)}
         />
       )}
 

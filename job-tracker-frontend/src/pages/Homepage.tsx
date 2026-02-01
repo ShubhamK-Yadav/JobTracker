@@ -88,7 +88,7 @@ export default function Homepage() {
 
       {isModalOpen && (
         <FormModal
-          title="New Job"
+          title="Add Job"
           isActive={isModalOpen}
           job={null}
           request={postJob}
