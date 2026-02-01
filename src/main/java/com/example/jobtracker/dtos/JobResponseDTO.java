@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 /**
 * Data Transfer Object for sending data between layers.
 * Prevents exposing of direct data from the db.
+* This DTO is used when creating a new job for the first time.
+* Is the DTO created from the response of a POST request.
 */
 public class JobResponseDTO {
     private Long id;
@@ -22,9 +24,9 @@ public class JobResponseDTO {
     public Long getId(){
         return id;
     }
-    
+
     public void setId(long id){
-        this.id = id; 
+        this.id = id;
     }
 
     public String getCompany() {

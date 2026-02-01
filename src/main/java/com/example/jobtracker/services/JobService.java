@@ -29,6 +29,10 @@ public class JobService {
         dto.setAppStage(job.getAppStage());
         dto.setUrl(job.getUrl());
         dto.setSalary(job.getSalary());
+        dto.setCreatedAt(job.getCreatedAt());
+
+        if (job.getUpdatedAt() != null)
+            dto.setUpdatedAt(job.getUpdatedAt());
 
         return dto;
     }
@@ -54,7 +58,7 @@ public class JobService {
         job.setUrl(dto.getUrl());
         job.setSalary(dto.getSalary());
     }
-    
+
     private void mapJobUpdateDTOtoJob(JobUpdateDTO dto, Job job) {
         job.setCompany(dto.getCompany());
         job.setJobDescription(dto.getJobDescription());
@@ -63,10 +67,10 @@ public class JobService {
         job.setUrl(dto.getUrl());
         job.setSalary(dto.getSalary());
     }
-    
+
     public JobResponseDTO createJob(JobCreateDTO dto) {
         Job job = new Job();
-        
+
         mapJobCreateDTOtoJob(dto, job);
         Job savedJob = repository.save(job);
         return convertToJobResponseDTO(savedJob);
@@ -80,27 +84,37 @@ public class JobService {
             .collect(Collectors.toList());
     }
 
+    /**
+    * Finds the job using the @param id and returns the DTO of the job.
+    * repository.findById(id) returns an Optional<Job> object != <Job> Object.
+    * orElse: Return the value if present, otherwise return other
+    * orElseThrow: Return the contained value, if present, otherwise throw an exception.
+    */
     public JobResponseDTO getById(Long id) {
-        /*
-        * repository.findById(id) returns an Optional<Job> object != <Job> Object.
-        * orElse: Return the value if present, otherwise return other
-        * orElseThrow: Return the contained value, if present, otherwise throw an exception.
-        */
         Job job = repository.findById(id)
             .orElseThrow(() -> new JobNotFoundException(id));
 
         return convertToJobResponseDTO(job);
     }
 
+    /**
+    * Finds and updates the job using the @param id and existing DTO of job.
+    * Then, returns the DTO of the updated job.
+    * repository.findById(id) returns an Optional<Job> object != <Job> Object.
+    * orElseThrow: Return the contained value, if present, otherwise throw an exception.
+    */
     public JobUpdateDTO updateJob(Long id, JobUpdateDTO dto) {
         Job job = repository.findById(id)
             .orElseThrow(() -> new JobNotFoundException(id));
-        
+
         mapJobUpdateDTOtoJob(dto, job);
         Job updatedJob = repository.save(job);
         return convertToJobUpdateDTO(updatedJob);
     }
 
+    /**
+    * Delete job with @param id
+    */
     public void deleteJob(Long id) {
         repository.deleteById(id);
     }

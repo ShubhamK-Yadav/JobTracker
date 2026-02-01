@@ -103,6 +103,22 @@ public class Job {
         this.salary = salary;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime dateTime) {
+        this.createdAt = dateTime;
+    }
+
+    public void setUpdatedAt(LocalDateTime dateTime) {
+        this.updatedAt = dateTime;
+    }
+
     @Override
     public String toString() {
         return "Job [id=" + id + ", company=" + company + ", jobDescription=" + jobDescription

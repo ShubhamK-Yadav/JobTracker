@@ -7,15 +7,16 @@ import com.example.jobtracker.repositories.JobRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
 
     private final JobRepository jobRepository;
-    private final BigDecimal b1 = new BigDecimal(35000.00);
-    private final BigDecimal b2 = new BigDecimal(34000.00);
-    private final BigDecimal b3 = new BigDecimal(38000.00);
+    private final BigDecimal b1 = new BigDecimal("35000.00");
+    private final BigDecimal b2 = new BigDecimal("34000.00");
+    private final BigDecimal b3 = new BigDecimal("38000.00");
 
     public DataSeeder(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
@@ -23,6 +24,7 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         if (jobRepository.count() == 0) { // Seed only if DB is empty
             Job job1 = new Job();
             job1.setCompany("OpenAI");
@@ -58,7 +60,7 @@ public class DataSeeder implements CommandLineRunner {
 
             jobRepository.saveAll(List.of(job1, job2, job3, job4));
 
-            System.out.println(" Seeded sample jobs into database");
+            System.out.println("Seeded sample jobs into database");
         }
     }
 }
