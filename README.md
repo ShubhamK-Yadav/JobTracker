@@ -1,6 +1,6 @@
 # Job Tracker (Development)
 
-A Spring Boot + PostgreSQL application to track job applications, stages, and details. 
+Learning Spring Boot and React with a Spring Boot + PostgreSQL application to track job applications, stages, and details. 
 The application is containerized with Docker and orchestrated using Docker Compose.
 
 ---
@@ -42,13 +42,13 @@ cd jobtracker
 ``` 
 
 ## 2. Environment variables
-Create a `.env` file in the project root:
+Create a `.env` file in the project root (example below):
 
 ``` 
 POSTGRES_DB=jobs
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
-SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/jobs
+SPRING_DATASOURCE_URL=jdbc:postgresql://db:1234/jobs
 SPRING_DATASOURCE_USERNAME=user
 SPRING_DATASOURCE_PASSWORD=password
 ```
